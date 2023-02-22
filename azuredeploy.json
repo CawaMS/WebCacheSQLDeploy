@@ -664,7 +664,8 @@
             }
           },
           "variables": {
-            "appServicesApiVersion": "2018-11-01"
+            "appServicesApiVersion": "2018-11-01",
+            "cacheApiVersion": "2022-06-01"
           },
           "resources": [
             {
@@ -673,11 +674,11 @@
               "type": "Microsoft.Web/sites/config",
               "properties": {
                 "defaultConnection": {
-                  "value": "[concat('Data Source=tcp:','cawatest789-server.database.windows.net',',1433;Initial Catalog=cawatest789-database;User Id=',parameters('serverUsername'),'@','cawatest789-server.database.windows.net',';Password=',parameters('serverPassword'))]",
+                  "value": "[concat('Data Source=tcp:',parameters('serverName'),'.database.windows.net',',1433;Initial Catalog=',parameters('databaseName'),';User Id=',parameters('serverUsername'),'@',parameters('serverName'),'.database.windows.net',';Password=',parameters('serverPassword'))]",
                   "type": "SQLAzure"
                 },
                 "CacheConnection": {
-                  "value": "[concat(parameters('cacheName'),'.redis.cache.windows.net,abortConnect=false,ssl=true,password=', listKeys(resourceId('Microsoft.Cache/Redis', parameters('cacheName')), '2022-06-01').primaryKey)]",
+                  "value": "[concat(reference(resourceId('Microsoft.Cache/Redis', parameters('cacheName')),variables('cacheApiVersion')).hostName, ':', reference(resourceId('Microsoft.Cache/redis', parameters('cacheName')),variables('cacheApiVersion')).sslPort, ',ssl=True,abortConnect=False,password=', listKeys(resourceId('Microsoft.Cache/redis', parameters('cacheName')), variables('cacheApiVersion')).primaryKey)]",
                   "type": "Custom"
                 }
               }
