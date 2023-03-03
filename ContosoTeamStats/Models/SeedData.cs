@@ -41,5 +41,23 @@ public class SeedData
             context.SaveChanges();
         }
     }
+
+    public static void Delete(IServiceProvider serviceProvider)
+    {
+        using (var context = new ContosoTeamStatsContext(
+            serviceProvider.GetRequiredService<
+                DbContextOptions<ContosoTeamStatsContext>>()))
+        {
+            if (!context.Team.Any()) 
+            {
+                return;
+            }
+
+            foreach(var t in context.Team)
+                    context.Team.Remove(t);
+            context.SaveChanges();
+        }
+
+    }
 }
 

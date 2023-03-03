@@ -15,5 +15,6 @@ namespace ContosoTeamStats.Data
         }
 
         public DbSet<ContosoTeamStats.Models.Team> Team { get; set; } = default!;
+
     }
 }

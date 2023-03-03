@@ -2258,7 +2258,7 @@
           }
         }
       },
-      "StackExchange.Redis/2.6.90": {
+      "StackExchange.Redis/2.6.96": {
         "type": "package",
         "dependencies": {
           "Pipelines.Sockets.Unofficial": "2.2.2"
@@ -7116,10 +7116,10 @@
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
       ]
     },
-    "StackExchange.Redis/2.6.90": {
-      "sha512": "OVmlUSvuCI4rMcSU1dI1h+U/6t2k8AL7TVD1kIrZ0eSDDrgNlKcsTlQhZU8u9ViU6F8AVOvFZnxDP69NyU/oUQ==",
+    "StackExchange.Redis/2.6.96": {
+      "sha512": "JDj94bTwBZ6zA1vknEYJppRXRejTnl5u2z6cRBQ0DJ+Uy94qvn0XsQZ2M+1/VkqtxQ+LUU1h4JZWwcvVojGiQg==",
       "type": "package",
-      "path": "stackexchange.redis/2.6.90",
+      "path": "stackexchange.redis/2.6.96",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7133,7 +7133,7 @@
         "lib/netcoreapp3.1/StackExchange.Redis.xml",
         "lib/netstandard2.0/StackExchange.Redis.dll",
         "lib/netstandard2.0/StackExchange.Redis.xml",
-        "stackexchange.redis.2.6.90.nupkg.sha512",
+        "stackexchange.redis.2.6.96.nupkg.sha512",
         "stackexchange.redis.nuspec"
       ]
     },

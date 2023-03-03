@@ -13,6 +13,7 @@ using ContosoTeamStats;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContosoTeamStats.Controllers
 {
@@ -21,11 +22,13 @@ namespace ContosoTeamStats.Controllers
         private readonly ContosoTeamStatsContext _context;
         private readonly Task<RedisConnection> _redisConnectionFactory;
         private RedisConnection _redisConnection;
+        private IServiceProvider _serviceProvider;
 
-        public TeamsController(ContosoTeamStatsContext context, Task<RedisConnection> redisConnectionFactory)
+        public TeamsController(ContosoTeamStatsContext context, Task<RedisConnection> redisConnectionFactory, IServiceProvider serviceProvider)
         {
             _context = context;
             _redisConnectionFactory = redisConnectionFactory;
+            _serviceProvider=serviceProvider;
         }
 
         // GET: Teams
@@ -100,7 +103,8 @@ namespace ContosoTeamStats.Controllers
         {
             ViewBag.msg += "Rebuilding DB. ";
             // Delete and re-initialize the database with sample data.
-            _context.Team.ExecuteDeleteAsync();
+            SeedData.Delete(_serviceProvider);
+            SeedData.Initialize(_serviceProvider);
             //db.Database.Delete();
             //db.Database.Initialize(true);
 
