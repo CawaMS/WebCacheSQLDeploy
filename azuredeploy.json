@@ -599,87 +599,50 @@
       "name": "[variables('appServiceDatabaseConnectionResourcesDeployment')]",
       "properties": {
         "mode": "Incremental",
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "parameters": {
-          "name": {
-            "value": "[parameters('name')]"
-          },
-          "cacheName": {
-            "value": "[parameters('cacheName')]"
-          },
-          "databaseName": {
-            "value": "[parameters('databaseName')]"
-          },
-          "collation": {
-            "value": "[parameters('collation')]"
-          },
-          "sqlDbSkuName": {
-            "value": "[parameters('sqlDbSkuName')]"
-          },
-          "sqlDbTierName": {
-            "value": "[parameters('sqlDbTierName')]"
-          },
-          "serverName": {
-            "value": "[parameters('serverName')]"
-          },
-          "serverUsername": {
-            "value": "[parameters('serverUsername')]"
-          },
-          "serverPassword": {
-            "value": "[parameters('serverPassword')]"
-          }
-        },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
-          "parameters": {
-            "name": {
-              "type": "string"
-            },
-            "databaseName": {
-              "type": "string"
-            },
-            "cacheName": {
-              "type": "string"
-            },
-            "collation": {
-              "type": "string"
-            },
-            "sqlDbSkuName": {
-              "type": "string"
-            },
-            "sqlDbTierName": {
-              "type": "string"
-            },
-            "serverName": {
-              "type": "string"
-            },
-            "serverUsername": {
-              "type": "string"
-            },
-            "serverPassword": {
-              "type": "securestring"
-            }
-          },
-          "variables": {
-            "appServicesApiVersion": "2018-11-01",
-            "cacheApiVersion": "2022-06-01"
-          },
           "resources": [
             {
-              "apiVersion": "[variables('appServicesApiVersion')]",
-              "name": "[concat(parameters('name'), '/', 'connectionstrings')]",
-              "type": "Microsoft.Web/sites/config",
+              "apiVersion": "[variables('serviceConnectorApiVersion')]",
+              "name": "[variables('serviceConnectorName')]",
+              "type": "Microsoft.ServiceLinker/linkers",
+              "scope": "[resourceId('Microsoft.Web/sites', parameters('name'))]",
               "properties": {
-                "defaultConnection": {
-                  "value": "[concat('Data Source=tcp:',parameters('serverName'),'.database.windows.net',',1433;Initial Catalog=',parameters('databaseName'),';User Id=',parameters('serverUsername'),'@',parameters('serverName'),'.database.windows.net',';Password=',parameters('serverPassword'))]",
-                  "type": "SQLAzure"
+                "targetService": {
+                  "type": "AzureResource",
+                  "id": "[resourceId('Microsoft.Sql/servers/databases', parameters('serverName'), parameters('databaseName'))]"
                 },
-                "CacheConnection": {
-                  "value": "[concat(reference(resourceId('Microsoft.Cache/Redis', parameters('cacheName')),variables('cacheApiVersion')).hostName, ':', reference(resourceId('Microsoft.Cache/redis', parameters('cacheName')),variables('cacheApiVersion')).sslPort, ',ssl=True,abortConnect=False,password=', listKeys(resourceId('Microsoft.Cache/redis', parameters('cacheName')), variables('cacheApiVersion')).primaryKey)]",
-                  "type": "Custom"
+                "authInfo": {
+                  "authType": "secret",
+                  "name": "[parameters('serverUsername')]",
+                  "secretInfo": {
+                    "secretType": "rawValue",
+                    "value": "[parameters('serverPassword')]"
+                  }
+                },
+                "clientType": "dotnet-connectionString",
+                "vNetSolution": {
+                  "type": "privateLink"
+                }
+              }
+            },
+            {
+              "apiVersion": "[variables('serviceConnectorApiVersion')]",
+              "name": "[variables('serviceConnectorRedisName')]",
+              "type": "Microsoft.ServiceLinker/linkers",
+              "scope": "[resourceId('Microsoft.Web/sites', parameters('name'))]",
+              "properties": {
+                "targetService": {
+                  "type": "AzureResource",
+                  "id": "[resourceId('Microsoft.Cache/Redis/Databases', parameters('cacheName'), '0')]"
+                },
+                "authInfo": {
+                  "authType": "secret"
+                },
+                "clientType": "dotnet",
+                "vNetSolution": {
+                  "type": "privateLink"
                 }
               }
             }
@@ -710,6 +673,9 @@
     "vnetAddress": "10.0.0.0/16",
     "subnetAddressForPrivateEndpoint": "10.0.0.0/24",
     "subnetAddressForApp": "10.0.2.0/24",
-    "subnetAddressForDb": "10.0.1.0/24"
+    "subnetAddressForDb": "10.0.1.0/24",
+    "serviceConnectorApiVersion": "2022-05-01",
+    "serviceConnectorName": "defaultConnector",
+    "serviceConnectorRedisName": "RedisConnector"
   }
 }
