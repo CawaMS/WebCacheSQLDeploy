@@ -74,9 +74,6 @@
     "subnetForApp": {
       "type": "string"
     },
-    "subnetForDb": {
-      "type": "string"
-    },
     "privateEndpointNameForApp": {
       "type": "string"
     },
@@ -307,9 +304,9 @@
               "tags": {},
               "properties": {
                 "sku": {
-                  "name": "Standard",
-                  "family": "C",
-                  "capacity": 1
+                  "name": "Premium",
+                  "family": "P",
+                  "capacity": 2
                 },
                 "redisConfiguration": {},
                 "enableNonSslPort": false,
@@ -662,19 +659,18 @@
     "cacheResourcesDeployment": "cacheResourcesDeployment",
     "appServiceResourcesDeployment": "appServiceResourcesDeployment",
     "appServiceDatabaseConnectionResourcesDeployment": "appServiceDatabaseConnectionResourcesDeployment",
-    "resourcesDeploymentApiVersion": "2020-06-01",
-    "appServicesApiVersion": "2018-11-01",
-    "databaseApiVersion": "2018-06-01-preview",
-    "cacheApiVersion": "2022-06-01",
+    "resourcesDeploymentApiVersion": "2024-03-01",
+    "appServicesApiVersion": "2022-09-01",
+    "databaseApiVersion": "2023-05-01-preview",
+    "cacheApiVersion": "2023-08-01",
     "databaseVersion": "12.0",
-    "vnetDeploymentApiVersion": "2020-07-01",
-    "privateDnsApiVersion": "2018-09-01",
-    "privateEndpointApiVersion": "2021-02-01",
+    "vnetDeploymentApiVersion": "2023-11-01",
+    "privateDnsApiVersion": "2020-06-01",
+    "privateEndpointApiVersion": "2023-11-01",
     "vnetAddress": "10.0.0.0/16",
     "subnetAddressForPrivateEndpoint": "10.0.0.0/24",
     "subnetAddressForApp": "10.0.2.0/24",
-    "subnetAddressForDb": "10.0.1.0/24",
-    "serviceConnectorApiVersion": "2022-05-01",
+    "serviceConnectorApiVersion": "2022-11-01-preview",
     "serviceConnectorName": "defaultConnector",
     "serviceConnectorRedisName": "RedisConnector"
   }

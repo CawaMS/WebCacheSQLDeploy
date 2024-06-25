@@ -51,7 +51,7 @@
       "value": ""
     },
     "serverUsername": {
-      "value": ""
+      "value": "dbadmin"
     },
     "serverPassword": {
       "value": ""
@@ -63,9 +63,6 @@
       "value": ""
     },
     "subnetForApp": {
-      "value": ""
-    },
-    "subnetForDb": {
       "value": ""
     },
     "privateEndpointNameForApp": {
